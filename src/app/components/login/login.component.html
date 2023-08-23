@@ -1,0 +1,80 @@
+<div class="min-vw-100 min-vh-100 d-flex">
+  <div
+    class="d-none d-lg-flex flex-column justify-content-center align-items-center p-5 w-50"
+    style="background-color: var(--primary-color)"
+  >
+    <div
+      class="w-100 h-75"
+      style="
+        background-image: url('../../../assets/images/login-ilustration.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      "
+    ></div>
+
+    <div class="d-flex flex-column gap-3 mt-3 text-white">
+      <h2 class="fs-5 fw-bold text-center">
+        Transformando Dados em Relacionamentos Valiosos
+      </h2>
+      <span class="fs-8 text-center"
+        >O Cliente Feliz permite que você transforme informações em conexões
+        significativas com seus clientes. Cadastre, acompanhe e melhore os
+        relacionamentos de forma eficaz</span
+      >
+    </div>
+  </div>
+  <div
+    class="d-flex flex-column justify-content-center align-items-center p-3 flex-fill gap-5"
+  >
+    <img
+      src="../../../assets/images/logo.svg"
+      alt="Logo Cliente Feliz"
+      width="80"
+      height="80"
+    />
+    <span>Bem vindo ao Cliete Feliz</span>
+    <div
+      class="w-100 d-flex flex-column gap-5 justify-content-center align-items-center"
+    >
+      <div class="w-50">
+        <label for="inputEmail" class="form-label text-body-tertiary"
+          >E-mail</label
+        >
+        <input
+          [(ngModel)]="user.email"
+          type="email"
+          class="form-control placeholderInput border-0 border-bottom rounded-0"
+          id="inputEmail"
+          placeholder="email@exemple.com"
+        />
+      </div>
+      <div class="w-50 d-flex flex-column">
+        <label for="inputPassword" class="form-label text-body-tertiary"
+          >Senha</label
+        >
+        <input
+          [(ngModel)]="user.password"
+          type="password"
+          class="form-control placeholderInput border-0 border-bottom rounded-0"
+          id="inputPassword"
+          placeholder="*******"
+        />
+        <button
+          (click)="navigate('/esqueci-minha-senha')"
+          class="btn align-self-end text-body-tertiary"
+        >
+          Esqueceu a senha?
+        </button>
+      </div>
+      <button (click)="login()" type="button" class="btn btn-primary w-50">
+        Entrar
+      </button>
+
+      <button (click)="navigate('/registrar')" class="btn text-body-tertiary">
+        É novo aqui?
+        <span style="color: var(--secondary-color)">Crie sua conta</span>
+      </button>
+    </div>
+  </div>
+</div>

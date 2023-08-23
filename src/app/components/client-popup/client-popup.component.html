@@ -1,0 +1,68 @@
+<div
+  *ngIf="status"
+  class="position-absolute d-flex justify-content-center align-items-center bg-opacity-50 bg-black min-vh-100 min-vw-100"
+>
+  <div
+    class="bg-white p-3 rounded-2"
+    style="max-width: 500px; max-height: 500px"
+  >
+    <div class="w-100 d-flex flex-column gap-3" position-relative>
+      <button (click)="closeModal()" class="btn fs-2 align-self-end">
+        <i class="ph ph-x"></i>
+      </button>
+      <div *ngIf="client.name === ''" class="fs-4 text-center">
+        Adicionar cliente
+      </div>
+      <div *ngIf="client.name !== ''" class="fs-4 text-center">
+        Editar cliente
+      </div>
+      <div class="w-100 d-flex flex-column gap-3">
+        <div class="w-100">
+          <label for="inputName" class="form-label text-body-tertiary"
+            >Nome</label
+          >
+          <input
+            [(ngModel)]="newClient.name"
+            type="text"
+            class="form-control w-100 placeholderInput"
+            id="inputName"
+            placeholder="Sona Voip"
+          />
+        </div>
+        <div class="w-100">
+          <label for="inputDescription" class="form-label text-body-tertiary"
+            >Descrição</label
+          >
+          <textarea
+            [(ngModel)]="newClient.description"
+            type="text"
+            class="form-control w-100 placeholderInput"
+            id="inputDescription"
+            placeholder="Descreva a empresa..."
+          ></textarea>
+        </div>
+      </div>
+      <div
+        class="w-100 d-flex justify-content-between align-items-center px-5 py-3 gap-5"
+      >
+        <button class="btn btn-outline-dark" (click)="closeModal()">
+          Cancelar
+        </button>
+        <button
+          *ngIf="client.name === ''"
+          (click)="confirmCreateClient()"
+          class="btn btn-success"
+        >
+          Criar cliente
+        </button>
+        <button
+          *ngIf="client.name !== ''"
+          (click)="confirmEditClient()"
+          class="btn btn-success"
+        >
+          Salvar alteração
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

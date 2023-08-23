@@ -1,0 +1,67 @@
+<div class="min-vw-100 min-vh-100 d-flex">
+  <div
+    class="d-none d-lg-flex flex-column justify-content-center align-items-center p-5 w-50"
+    style="background-color: var(--primary-color)"
+  >
+    <div
+      class="w-100 h-75"
+      style="
+        background-image: url('../../../assets/images/perdeu-senha-ilustration.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      "
+    ></div>
+
+    <div class="d-flex flex-column gap-3 mt-3 text-white">
+      <h2 class="fs-5 fw-bold text-center">Recuperação de Senha</h2>
+      <ul>
+        <li>
+          Clique no link "Esqueceu sua senha?" na página de login do Cliente
+          Feliz.
+        </li>
+        <li>
+          Insira o endereço de e-mail associado à sua conta e clique em
+          "Recuperar senha".
+        </li>
+        <li>
+          Você receberá um e-mail com um link de redefinição de senha.
+          Certifique-se de verificar sua caixa de entrada e, se necessário, sua
+          pasta de spam.
+        </li>
+        <li>
+          Clique no link de redefinição de senha e siga as instruções fornecidas
+          para criar uma nova senha segura.
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div
+    class="d-flex flex-column justify-content-center align-items-center p-3 flex-fill gap-5"
+  >
+    <span>Esqueceu sua senha?</span>
+    <div
+      class="w-100 d-flex flex-column gap-5 justify-content-center align-items-center"
+    >
+      <div class="w-50">
+        <label for="inputEmail" class="form-label text-body-tertiary"
+          >E-mail</label
+        >
+        <input
+          type="email"
+          class="form-control placeholderInput border-0 border-bottom rounded-0"
+          id="inputEmail"
+          placeholder="email@exemple.com"
+          [(ngModel)]="email"
+        />
+      </div>
+      <button
+        (click)="recuperarSenha()"
+        type="button"
+        class="btn btn-primary w-50"
+      >
+        Recuperar senha
+      </button>
+    </div>
+  </div>
+</div>

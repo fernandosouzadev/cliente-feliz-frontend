@@ -1,0 +1,131 @@
+<app-confirm-popup
+  [status]="statusPopupDelete"
+  message="Tem certeza que deseja remover este usuario?"
+  (modalClose)="closeModalDelete()"
+  (confirm)="deleteClient()"
+></app-confirm-popup>
+<app-client-popup
+  [status]="statusPopupClient"
+  (modalClose)="closeModalClient()"
+  [client]="client"
+  (createClient)="createClient()"
+  (editClient)="editClient()"
+></app-client-popup>
+
+<div
+  class="min-vw-100 min-vh-100 d-flex flex-column"
+  style="background-color: var(--background)"
+>
+  <div
+    class="w-100 bg-white shadow-sm d-flex align-items-center justify-content-between px-5"
+    style="height: 80px"
+  >
+    <span class="d-none d-lg-block">Bem vindo {{ user.name }}</span>
+    <img
+      src="../../../assets/images/LogoFull.svg"
+      alt="Logo Cliente Feliz"
+      width="150"
+      height="150"
+    />
+    <div class="position-relative">
+      <button
+        (click)="openMenu()"
+        class="btn d-flex justify-content-center align-items-center gap-2"
+      >
+        <span>{{ user.name }}</span>
+        <i class="ph ph-caret-down"></i>
+      </button>
+      <div
+        *ngIf="toggle"
+        class="card position-absolute left-0"
+        style="width: 10rem"
+      >
+        <div class="card-body">
+          <button (click)="deslogar()" class="btn w-100">Deslogar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between align-items-center px-5 mt-5">
+    <h1 class="fs-3 fw-bold">Clientes</h1>
+    <button (click)="setStatusPop()" class="btn btn-primary">
+      Adicionar cliente
+    </button>
+  </div>
+  <div
+    *ngIf="clientes[0]"
+    class="w-100 px-5 mt-5 d-flex flex-column flex-md-row align-items-center gap-2"
+  >
+    <input
+      [(ngModel)]="search"
+      type="text"
+      class="form-control w-50"
+      placeholder="Pesquisar..."
+    />
+    <button (click)="searchClient()" class="btn btn-primary">Buscar</button>
+    <button
+      *ngIf="search !== ''"
+      (click)="resetarBuscar()"
+      class="btn btn-outline-dark"
+    >
+      <i class="ph ph-arrows-clockwise"></i>
+    </button>
+  </div>
+  <div
+    *ngIf="clientes[0]"
+    class="w-100 d-flex justify-content-center align-items-center px-5 mt-3"
+  >
+    <table
+      class="table table-borderless w-100 table-responsive-lg table-hover shadow-sm"
+    >
+      <thead>
+        <tr class="text-center">
+          <th scope="col" style="width: 50px">ID</th>
+          <th scope="col" class="w-25">NOME</th>
+          <th scope="col">DESCRIÇÃO</th>
+          <th scope="col">DATA DE CRIAÇÃO</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody class="text-center" *ngFor="let cliente of clientes">
+        <tr>
+          <th scope="row">{{ cliente._id }}</th>
+          <td>{{ cliente.name }}</td>
+          <td class="text-truncate" style="max-width: 200px">
+            {{ cliente.description }}
+          </td>
+          <td>{{ convertDate(cliente.createdAt) }}</td>
+          <td>
+            <div>
+              <button (click)="setEditClient(cliente)" class="btn">
+                <i class="ph ph-pencil-simple"></i>
+              </button>
+              <button (click)="setDeleteClient(cliente._id)" class="btn">
+                <i class="ph ph-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div
+    *ngIf="!clientes[0]"
+    class="w-100 d-flex flex-column gap-5 justify-content-center align-items-center mt-5"
+    style="height: calc(100vh - 300px)"
+  >
+    <div
+      class="w-100 h-50"
+      style="
+        background-image: url('../../../assets/images/emptyClients.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      "
+    ></div>
+    <div class="fs-6 text-center">
+      Você não possui nenhum cliente, clique em ADICIONAR CLIENTE para adicionar
+      clientes em sua lista
+    </div>
+  </div>
+</div>
