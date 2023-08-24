@@ -50,7 +50,9 @@
             placeholder="email@exemple.com"
             formControlName="email"
             [class]="
-              formulario.controls['email'].errors ? 'border border-danger' : ''
+              formulario.controls['email'].errors && user.email !== ''
+                ? 'border border-danger'
+                : ''
             "
           />
           <div *ngIf="formulario.controls['email'].errors && user.email !== ''">
