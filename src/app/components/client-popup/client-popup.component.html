@@ -80,6 +80,7 @@
           *ngIf="client.name === ''"
           (click)="validatedFields('create')"
           class="btn btn-success"
+          [disabled]="isLoading"
         >
           {{ isLoading ? "Carregando..." : "Criar Cliente" }}
           <div
@@ -92,6 +93,7 @@
           *ngIf="client.name !== ''"
           (click)="validatedFields('edit')"
           class="btn btn-success"
+          [disabled]="isLoading"
         >
           {{ isLoading ? "Carregando..." : "Salvar Alteração" }}
           <div

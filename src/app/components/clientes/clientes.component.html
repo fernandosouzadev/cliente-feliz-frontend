@@ -64,7 +64,11 @@
       class="form-control w-50"
       placeholder="Pesquisar..."
     />
-    <button (click)="searchClient()" class="btn btn-primary">
+    <button
+      (click)="searchClient()"
+      class="btn btn-primary"
+      [disabled]="isLoading"
+    >
       {{ isLoading ? "Buscando..." : "Buscar" }}
       <div
         *ngIf="isLoading"

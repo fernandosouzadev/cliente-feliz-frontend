@@ -142,6 +142,7 @@
           (click)="validatedFields()"
           type="button"
           class="btn btn-primary w-50"
+          [disabled]="isLoading"
         >
           {{ isLoading ? "Carregando..." : "Alterar Senha" }}
           <div

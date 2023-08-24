@@ -23,7 +23,11 @@
         <button class="btn btn-outline-dark" (click)="closeModal()">
           Cancelar
         </button>
-        <button (click)="confirmDelete()" class="btn btn-danger">
+        <button
+          (click)="confirmDelete()"
+          class="btn btn-danger"
+          [disabled]="isLoading"
+        >
           {{ isLoading ? "Carregando..." : "Remover usuario" }}
           <div
             *ngIf="isLoading"

@@ -216,11 +216,14 @@ export class ClientesComponent implements OnInit {
     if (this.search === '') {
       this.resetarBuscar();
     } else {
+      this.isLoading = true;
       this.clientService.searchClient(this.search).subscribe(
         (data: any) => {
+          this.isLoading = false;
           this.clientes = data.clients;
         },
         (error) => {
+          this.isLoading = false;
           this.toastService.toastError(
             error.error.message,
             'Ops, aconteceu um erro'
