@@ -2,7 +2,8 @@
 
 Este repositório contém o código-fonte do projeto Cliente Feliz, que foi desenvolvido como parte de um teste prático proposto pela Sona Voip. O Cliente Feliz é uma aplicação front-end construída com Angular 11.1, Bootstrap 5.4, Ngx-toastr 13.2 sendo um CRUD para gerenciamento de clientes.
 
-Acesse o projeto: https://cliete-feliz.netlify.app/login
+Acesse o projeto:[Cliente Feliz demo](https://cliete-feliz.netlify.app/login)
+Figma:[Acessar o Figma](https://www.figma.com/file/ncy6wcu0KE9uBqbydn98JM/Cliente-Feliz?type=design&node-id=0%3A1&mode=design&t=3QgsWJrYFBsGIUBA-1)
 
 <p align="center">
   <img alt="Cliente Feliz" title="Cliente Feliz" src="https://i.ibb.co/nrnPzKY/Screenshot-2023-08-23-at-17-45-27.png" width="100%" />
