@@ -34,47 +34,94 @@
       height="80"
     />
     <span>Bem vindo ao Cliete Feliz</span>
-    <div
-      class="w-100 d-flex flex-column gap-5 justify-content-center align-items-center"
-    >
-      <div class="w-50">
-        <label for="inputEmail" class="form-label text-body-tertiary"
-          >E-mail</label
-        >
-        <input
-          [(ngModel)]="user.email"
-          type="email"
-          class="form-control placeholderInput border-0 border-bottom rounded-0"
-          id="inputEmail"
-          placeholder="email@exemple.com"
-        />
-      </div>
-      <div class="w-50 d-flex flex-column">
-        <label for="inputPassword" class="form-label text-body-tertiary"
-          >Senha</label
-        >
-        <input
-          [(ngModel)]="user.password"
-          type="password"
-          class="form-control placeholderInput border-0 border-bottom rounded-0"
-          id="inputPassword"
-          placeholder="*******"
-        />
+    <form [formGroup]="formulario" class="w-100">
+      <div
+        class="w-100 d-flex flex-column gap-5 justify-content-center align-items-center"
+      >
+        <div class="w-50">
+          <label for="inputEmail" class="form-label text-body-tertiary"
+            >E-mail</label
+          >
+          <input
+            [(ngModel)]="user.email"
+            type="email"
+            class="form-control placeholderInput border-0 border-bottom rounded-0"
+            id="inputEmail"
+            placeholder="email@exemple.com"
+            formControlName="email"
+            [class]="
+              formulario.controls['email'].errors ? 'border border-danger' : ''
+            "
+          />
+          <div *ngIf="formulario.controls['email'].errors && user.email !== ''">
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['email'].errors.required &&
+                user.email !== ''
+              "
+              >* Campo é obrigatório.</small
+            >
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['email'].errors.email && user.email !== ''
+              "
+              >* Digite um e-mail valido.</small
+            >
+          </div>
+        </div>
+        <div class="w-50 d-flex flex-column">
+          <label for="inputPassword" class="form-label text-body-tertiary"
+            >Senha</label
+          >
+          <input
+            [(ngModel)]="user.password"
+            type="password"
+            class="form-control placeholderInput border-0 border-bottom rounded-0"
+            id="inputPassword"
+            formControlName="password"
+            placeholder="*******"
+            [class]="
+              formulario.controls['password'].errors && user.password !== ''
+                ? 'border border-danger'
+                : ''
+            "
+          />
+          <div
+            *ngIf="
+              formulario.controls['password'].errors && user.password !== ''
+            "
+          >
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['password'].errors.required &&
+                user.password !== ''
+              "
+              >* Campo é obrigatório.</small
+            >
+          </div>
+          <button
+            (click)="navigate('/esqueci-minha-senha')"
+            class="btn align-self-end text-body-tertiary"
+          >
+            Esqueceu a senha?
+          </button>
+        </div>
         <button
-          (click)="navigate('/esqueci-minha-senha')"
-          class="btn align-self-end text-body-tertiary"
+          (click)="validatedFields()"
+          type="submit"
+          class="btn btn-primary w-50"
         >
-          Esqueceu a senha?
+          Entrar
+        </button>
+
+        <button (click)="navigate('/registrar')" class="btn text-body-tertiary">
+          É novo aqui?
+          <span style="color: var(--secondary-color)">Crie sua conta</span>
         </button>
       </div>
-      <button (click)="login()" type="button" class="btn btn-primary w-50">
-        Entrar
-      </button>
-
-      <button (click)="navigate('/registrar')" class="btn text-body-tertiary">
-        É novo aqui?
-        <span style="color: var(--secondary-color)">Crie sua conta</span>
-      </button>
-    </div>
+    </form>
   </div>
 </div>

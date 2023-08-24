@@ -1,4 +1,11 @@
-<div class="min-vw-100 min-vh-100 d-flex">
+<div class="min-vw-100 min-vh-100 d-flex position-relative">
+  <button
+    (click)="backLogin()"
+    class="btn btn-outline-secondary position-absolute"
+    style="top: 50px; right: 50px"
+  >
+    Voltar ao login
+  </button>
   <div
     class="d-none d-lg-flex flex-column justify-content-center align-items-center p-5 w-50"
     style="background-color: var(--primary-color)"
@@ -17,8 +24,13 @@
       <h2 class="fs-5 fw-bold text-center">Já possui uma conta?</h2>
       <span class="fs-8 text-center"
         >Se você já é um membro registrado, está a apenas um passo de acessar
-        sua conta no Cliente Feliz. Não perca tempo! Clique aqui para fazer
-        login</span
+        sua conta no Cliente Feliz. Não perca tempo!
+        <button
+          (click)="backLogin()"
+          class="btn text-white text-decoration-underline p-0"
+        >
+          Click aqui para fazer login
+        </button></span
       >
     </div>
   </div>
@@ -26,60 +38,152 @@
     class="d-flex flex-column justify-content-center align-items-center p-3 flex-fill gap-5"
   >
     <span>Crie sua conta</span>
-    <div
-      class="w-100 d-flex flex-column gap-5 justify-content-center align-items-center"
-    >
-      <div class="w-50">
-        <label for="inputNome" class="form-label text-body-tertiary"
-          >Nome</label
+    <form [formGroup]="formulario" class="w-100">
+      <div
+        class="w-100 d-flex flex-column gap-5 justify-content-center align-items-center"
+      >
+        <div class="w-50">
+          <label for="inputNome" class="form-label text-body-tertiary"
+            >Nome</label
+          >
+          <input
+            type="text"
+            class="form-control placeholderInput border-0 border-bottom rounded-0"
+            id="inputNome"
+            placeholder="João"
+            [(ngModel)]="user.name"
+            formControlName="name"
+            [class]="
+              formulario.controls['name'].errors ? 'border border-danger' : ''
+            "
+          />
+          <div *ngIf="formulario.controls['name'].errors && user.name !== ''">
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['name'].errors.required && user.name !== ''
+              "
+              >* Campo é obrigatório.</small
+            >
+          </div>
+        </div>
+        <div class="w-50">
+          <label for="inputEmail" class="form-label text-body-tertiary"
+            >E-mail</label
+          >
+          <input
+            type="email"
+            class="form-control placeholderInput border-0 border-bottom rounded-0"
+            id="inputEmail"
+            formControlName="email"
+            placeholder="email@exemple.com"
+            [(ngModel)]="user.email"
+            [class]="
+              formulario.controls['email'].errors ? 'border border-danger' : ''
+            "
+          />
+          <div *ngIf="formulario.controls['email'].errors && user.email !== ''">
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['email'].errors.required &&
+                user.email !== ''
+              "
+              >* Campo é obrigatório.</small
+            >
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['email'].errors.email && user.email !== ''
+              "
+              >* Digite um e-mail valido.</small
+            >
+          </div>
+        </div>
+        <div class="w-50">
+          <label for="inputPassword" class="form-label text-body-tertiary"
+            >Senha</label
+          >
+          <input
+            type="password"
+            class="form-control placeholderInput border-0 border-bottom rounded-0"
+            id="inputPassword"
+            formControlName="password"
+            placeholder="*******"
+            [(ngModel)]="user.password"
+            [class]="
+              formulario.controls['password'].errors && user.password !== ''
+                ? 'border border-danger'
+                : ''
+            "
+          />
+          <div
+            *ngIf="
+              formulario.controls['password'].errors && user.password !== ''
+            "
+          >
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['password'].errors.required &&
+                user.password !== ''
+              "
+              >* Campo é obrigatório.</small
+            >
+          </div>
+        </div>
+        <div class="w-50">
+          <label
+            for="inputConfirmPassword"
+            class="form-label text-body-tertiary"
+            >Confirmar senha</label
+          >
+          <input
+            type="password"
+            class="form-control placeholderInput border-0 border-bottom rounded-0"
+            id="inputConfirmPassword"
+            placeholder="*******"
+            formControlName="confirmPassword"
+            [(ngModel)]="user.confirmPassword"
+            [class]="
+              formulario.controls['confirmPassword'].errors &&
+              user.confirmPassword !== ''
+                ? 'border border-danger'
+                : ''
+            "
+          />
+          <div
+            *ngIf="
+              formulario.controls['confirmPassword'].errors &&
+              user.confirmPassword !== ''
+            "
+          >
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['confirmPassword'].errors.required &&
+                user.confirmPassword !== ''
+              "
+              >* Campo é obrigatório.</small
+            >
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['confirmPassword'].errors.matching &&
+                user.confirmPassword !== ''
+              "
+              >* As senhas não conferem</small
+            >
+          </div>
+        </div>
+        <button
+          (click)="validatedFields()"
+          type="button"
+          class="btn btn-primary w-50"
         >
-        <input
-          type="text"
-          class="form-control placeholderInput border-0 border-bottom rounded-0"
-          id="inputNome"
-          placeholder="João"
-          [(ngModel)]="user.name"
-        />
+          Registrar
+        </button>
       </div>
-      <div class="w-50">
-        <label for="inputEmail" class="form-label text-body-tertiary"
-          >E-mail</label
-        >
-        <input
-          type="email"
-          class="form-control placeholderInput border-0 border-bottom rounded-0"
-          id="inputEmail"
-          placeholder="email@exemple.com"
-          [(ngModel)]="user.email"
-        />
-      </div>
-      <div class="w-50">
-        <label for="inputPassword" class="form-label text-body-tertiary"
-          >Senha</label
-        >
-        <input
-          type="password"
-          class="form-control placeholderInput border-0 border-bottom rounded-0"
-          id="inputPassword"
-          placeholder="*******"
-          [(ngModel)]="user.password"
-        />
-      </div>
-      <div class="w-50">
-        <label for="inputConfirmPassword" class="form-label text-body-tertiary"
-          >Confirmar senha</label
-        >
-        <input
-          type="password"
-          class="form-control placeholderInput border-0 border-bottom rounded-0"
-          id="inputConfirmPassword"
-          placeholder="*******"
-          [(ngModel)]="user.confirmPassword"
-        />
-      </div>
-      <button (click)="registrar()" type="button" class="btn btn-primary w-50">
-        Registrar
-      </button>
-    </div>
+    </form>
   </div>
 </div>

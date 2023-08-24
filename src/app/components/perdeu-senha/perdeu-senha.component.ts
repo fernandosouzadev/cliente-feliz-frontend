@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -10,13 +11,19 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class PerdeuSenhaComponent implements OnInit {
   email: string;
+  formulario: FormGroup;
+
   constructor(
     private router: Router,
     private authService: AuthService,
     private toastService: ToastService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.formulario = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+    });
+  }
 
   recuperarSenha() {
     this.authService.forgotPassword(this.email).subscribe(
@@ -31,5 +38,17 @@ export class PerdeuSenhaComponent implements OnInit {
         );
       }
     );
+  }
+
+  validatedFields() {
+    if (this.formulario.status === 'INVALID') {
+      return;
+    } else {
+      this.recuperarSenha();
+    }
+  }
+
+  backLogin() {
+    this.router.navigate(['/login']);
   }
 }

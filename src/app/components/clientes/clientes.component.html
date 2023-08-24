@@ -13,7 +13,7 @@
 ></app-client-popup>
 
 <div
-  class="min-vw-100 min-vh-100 d-flex flex-column"
+  class="w-100 min-vh-100 d-flex flex-column"
   style="background-color: var(--background)"
 >
   <div
@@ -37,8 +37,8 @@
       </button>
       <div
         *ngIf="toggle"
-        class="card position-absolute left-0"
-        style="width: 10rem"
+        class="card position-absolute"
+        style="width: 10rem; right: 10px"
       >
         <div class="card-body">
           <button (click)="deslogar()" class="btn w-100">Deslogar</button>
@@ -67,30 +67,37 @@
       *ngIf="search !== ''"
       (click)="resetarBuscar()"
       class="btn btn-outline-dark"
+      data-tooltip="ThemeRoller: jQuery UI's theme builder application"
     >
-      <i class="ph ph-arrows-clockwise"></i>
+      <i class="ph ph-x"></i>
     </button>
   </div>
   <div
     *ngIf="clientes[0]"
-    class="w-100 d-flex justify-content-center align-items-center px-5 mt-3"
+    class="w-100 d-flex justify-content-center align-items-center px-1 px-md-5 mt-3"
   >
     <table
-      class="table table-borderless w-100 table-responsive-lg table-hover shadow-sm"
+      class="table table-borderless w-100 table-responsive-lg table-hover table-fixed shadow-sm"
     >
-      <thead>
+      <thead class="thead-fixed">
         <tr class="text-center">
-          <th scope="col" style="width: 50px">ID</th>
-          <th scope="col" class="w-25">NOME</th>
+          <th scope="col">ID</th>
+          <th scope="col">NOME</th>
           <th scope="col">DESCRIÇÃO</th>
-          <th scope="col">DATA DE CRIAÇÃO</th>
+          <th scope="col" class="text-truncate" style="max-width: 200px">
+            DATA DE CRIAÇÃO
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody class="text-center" *ngFor="let cliente of clientes">
         <tr>
-          <th scope="row">{{ cliente._id }}</th>
-          <td>{{ cliente.name }}</td>
+          <th scope="row" class="text-truncate" style="max-width: 200px">
+            {{ cliente._id }}
+          </th>
+          <td class="text-truncate" style="max-width: 200px">
+            {{ cliente.name }}
+          </td>
           <td class="text-truncate" style="max-width: 200px">
             {{ cliente.description }}
           </td>

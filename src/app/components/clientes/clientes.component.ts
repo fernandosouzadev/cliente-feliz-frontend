@@ -44,7 +44,7 @@ export class ClientesComponent implements OnInit {
       description: '',
     };
     this.user = this.authService.user;
-    console.log(this.authService.user);
+
     this.clientService.getClients().subscribe(
       (data: any) => {
         this.clientes = data.clients;

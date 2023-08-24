@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { matchPassword } from 'src/app/Validators/match-password.validator';
 
 interface Data {
   email: string;
@@ -17,6 +19,7 @@ interface Data {
 })
 export class ResetarSenhaComponent implements OnInit {
   data: Data;
+  formulario: FormGroup;
 
   constructor(
     private router: Router,
@@ -33,9 +36,21 @@ export class ResetarSenhaComponent implements OnInit {
       confirmPassword: '',
       token,
     };
+
+    this.formulario = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        matchPassword('confirmPassword', true),
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        matchPassword('password'),
+      ]),
+    });
   }
 
-  resertPassword() {
+  resetPassword() {
     this.authService.resetPassword(this.data).subscribe(
       (data: any) => {
         this.toastService.toastSucess(data.message, 'Senha alterada');
@@ -48,5 +63,13 @@ export class ResetarSenhaComponent implements OnInit {
         );
       }
     );
+  }
+
+  validatedFields() {
+    if (this.formulario.status === 'INVALID') {
+      return;
+    } else {
+      this.resetPassword();
+    }
   }
 }

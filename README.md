@@ -14,7 +14,7 @@ O projeto Cliente Feliz faz uso das seguintes tecnologias:
 - **Angular 11.1**: Um framework JavaScript para a construção de interfaces de usuário modernas e dinâmicas.
 - **Bootstrap 5.4**: Uma biblioteca de estilos CSS e componentes front-end que facilita a criação de interfaces atraentes e responsivas.
 - **Ngx-toastr 13.2**: Uma biblioteca para exibir notificações e mensagens de toast de forma elegante em uma aplicação Angular.
-- **Phosper Icons**: Conjunto de ícones para melhorar a experiência do usuário na aplicação.
+- **Phosphor Icons**: Conjunto de ícones para melhorar a experiência do usuário na aplicação.
 
 ## Variáveis de Ambiente
 

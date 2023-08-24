@@ -1,4 +1,11 @@
-<div class="min-vw-100 min-vh-100 d-flex">
+<div class="min-vw-100 min-vh-100 d-flex position-relative">
+  <button
+    (click)="backLogin()"
+    class="btn btn-outline-secondary position-absolute"
+    style="top: 50px; right: 50px"
+  >
+    Voltar ao login
+  </button>
   <div
     class="d-none d-lg-flex flex-column justify-content-center align-items-center p-5 w-50"
     style="background-color: var(--primary-color)"
@@ -40,28 +47,47 @@
     class="d-flex flex-column justify-content-center align-items-center p-3 flex-fill gap-5"
   >
     <span>Esqueceu sua senha?</span>
-    <div
-      class="w-100 d-flex flex-column gap-5 justify-content-center align-items-center"
-    >
-      <div class="w-50">
-        <label for="inputEmail" class="form-label text-body-tertiary"
-          >E-mail</label
-        >
-        <input
-          type="email"
-          class="form-control placeholderInput border-0 border-bottom rounded-0"
-          id="inputEmail"
-          placeholder="email@exemple.com"
-          [(ngModel)]="email"
-        />
-      </div>
-      <button
-        (click)="recuperarSenha()"
-        type="button"
-        class="btn btn-primary w-50"
+    <form [formGroup]="formulario" class="w-100">
+      <div
+        class="w-100 d-flex flex-column gap-5 justify-content-center align-items-center"
       >
-        Recuperar senha
-      </button>
-    </div>
+        <div class="w-50">
+          <label for="inputEmail" class="form-label text-body-tertiary"
+            >E-mail</label
+          >
+          <input
+            type="email"
+            class="form-control placeholderInput border-0 border-bottom rounded-0"
+            id="inputEmail"
+            placeholder="email@exemple.com"
+            [(ngModel)]="email"
+            [class]="
+              formulario.controls['email'].errors ? 'border border-danger' : ''
+            "
+          />
+          <div *ngIf="formulario.controls['email'].errors && email !== ''">
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['email'].errors.required && email !== ''
+              "
+              >* Campo é obrigatório.</small
+            >
+            <small
+              class="text-red"
+              *ngIf="formulario.controls['email'].errors.email && email !== ''"
+              >* Digite um e-mail valido.</small
+            >
+          </div>
+        </div>
+        <button
+          (click)="recuperarSenha()"
+          type="button"
+          class="btn btn-primary w-50"
+        >
+          Recuperar senha
+        </button>
+      </div>
+    </form>
   </div>
 </div>

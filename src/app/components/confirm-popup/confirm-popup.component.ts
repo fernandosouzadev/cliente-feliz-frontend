@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-confirm-popup',
@@ -15,11 +22,33 @@ export class ConfirmPopupComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngOnChanges() {
+    if (this.status === true) {
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
   closeModal() {
     this.modalClose.emit();
+    document.body.style.overflow = '';
   }
 
   confirmDelete() {
     this.confirm.emit();
+  }
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(
+    event: KeyboardEvent
+  ) {
+    this.closeModal();
+  }
+
+  @HostListener('document:click', ['$event']) onClickHandler(
+    event: MouseEvent
+  ) {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('confirm-popup')) {
+      this.closeModal();
+    }
   }
 }

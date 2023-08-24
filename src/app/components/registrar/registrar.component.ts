@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { matchPassword } from 'src/app/Validators/match-password.validator';
 
 interface User {
   name: string;
@@ -17,6 +19,7 @@ interface User {
 })
 export class RegistrarComponent implements OnInit {
   user: User;
+  formulario: FormGroup;
 
   constructor(
     private router: Router,
@@ -31,6 +34,18 @@ export class RegistrarComponent implements OnInit {
       password: '',
       confirmPassword: '',
     };
+    this.formulario = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        matchPassword('confirmPassword', true),
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        matchPassword('password'),
+      ]),
+    });
   }
 
   registrar() {
@@ -46,5 +61,17 @@ export class RegistrarComponent implements OnInit {
         );
       }
     );
+  }
+
+  validatedFields() {
+    if (this.formulario.status === 'INVALID') {
+      return;
+    } else {
+      this.registrar();
+    }
+  }
+
+  backLogin() {
+    this.router.navigate(['/login']);
   }
 }

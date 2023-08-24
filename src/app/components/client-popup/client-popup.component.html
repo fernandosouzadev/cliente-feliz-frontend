@@ -1,6 +1,6 @@
 <div
   *ngIf="status"
-  class="position-absolute d-flex justify-content-center align-items-center bg-opacity-50 bg-black min-vh-100 min-vw-100"
+  class="client-popup position-absolute d-flex justify-content-center align-items-center bg-opacity-50 bg-black w-100 h-100"
 >
   <div
     class="bg-white p-3 rounded-2"
@@ -16,7 +16,8 @@
       <div *ngIf="client.name !== ''" class="fs-4 text-center">
         Editar cliente
       </div>
-      <div class="w-100 d-flex flex-column gap-3">
+
+      <div class="w-100 d-flex flex-column gap-3" [formGroup]="formulario">
         <div class="w-100">
           <label for="inputName" class="form-label text-body-tertiary"
             >Nome</label
@@ -27,7 +28,18 @@
             class="form-control w-100 placeholderInput"
             id="inputName"
             placeholder="Sona Voip"
+            formControlName="name"
+            [class]="
+              formulario.controls['name'].errors ? 'border border-danger' : ''
+            "
           />
+          <div *ngIf="formulario.controls['name'].errors && isInvalid">
+            <small
+              class="text-red"
+              *ngIf="formulario.controls['name'].errors.required && isInvalid"
+              >* Campo é obrigatório.</small
+            >
+          </div>
         </div>
         <div class="w-100">
           <label for="inputDescription" class="form-label text-body-tertiary"
@@ -39,9 +51,25 @@
             class="form-control w-100 placeholderInput"
             id="inputDescription"
             placeholder="Descreva a empresa..."
+            formControlName="description"
+            [class]="
+              formulario.controls['description'].errors
+                ? 'border border-danger'
+                : ''
+            "
           ></textarea>
+          <div *ngIf="formulario.controls['description'].errors && isInvalid">
+            <small
+              class="text-red"
+              *ngIf="
+                formulario.controls['description'].errors.required && isInvalid
+              "
+              >* Campo é obrigatório.</small
+            >
+          </div>
         </div>
       </div>
+
       <div
         class="w-100 d-flex justify-content-between align-items-center px-5 py-3 gap-5"
       >
@@ -50,14 +78,14 @@
         </button>
         <button
           *ngIf="client.name === ''"
-          (click)="confirmCreateClient()"
+          (click)="validatedFields('create')"
           class="btn btn-success"
         >
           Criar cliente
         </button>
         <button
           *ngIf="client.name !== ''"
-          (click)="confirmEditClient()"
+          (click)="validatedFields('edit')"
           class="btn btn-success"
         >
           Salvar alteração
