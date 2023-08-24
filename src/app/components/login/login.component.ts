@@ -28,6 +28,7 @@ interface DataUser {
 export class LoginComponent implements OnInit {
   user: User;
   formulario: FormGroup;
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -48,15 +49,18 @@ export class LoginComponent implements OnInit {
   };
 
   login() {
+    this.isLoading = true;
     this.authServicer.login(this.user).subscribe(
       (data: DataUser) => {
         if (data.token) {
           this.authServicer.setUser(data.user);
           this.authServicer.setToken(data.token);
+          this.isLoading = false;
           this.router.navigate(['/clientes']);
         }
       },
       (error) => {
+        this.isLoading = false;
         this.toastService.toastError(
           error.error.message,
           'Ops, aconteceu um erro'

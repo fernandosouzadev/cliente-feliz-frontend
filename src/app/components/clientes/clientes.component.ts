@@ -31,6 +31,7 @@ export class ClientesComponent implements OnInit {
   statusPopupClient: boolean = false;
   clientSeleted: string;
   search: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -119,11 +120,13 @@ export class ClientesComponent implements OnInit {
     }
     this.clientService.createClient(this.client).subscribe(
       (data: any) => {
+        this.isLoading = true;
         this.clientes.push(data.client);
         this.closeModalClient();
         this.toastService.toastSucess(``, 'Cliente adicionado com sucesso!');
       },
       (error) => {
+        this.isLoading = false;
         this.toastService.toastError(
           error.error.message,
           'Ops, aconteceu um erro'
@@ -150,6 +153,8 @@ export class ClientesComponent implements OnInit {
     }
     this.clientService.editClient(this.client).subscribe(
       (data: any) => {
+        this.isLoading = true;
+
         this.clientes.forEach((client) => {
           if (client._id === data.updatedClient._id) {
             client = data.updatedClient;
@@ -162,6 +167,8 @@ export class ClientesComponent implements OnInit {
         );
       },
       (error) => {
+        this.isLoading = false;
+
         this.toastService.toastError(
           error.error.message,
           'Ops, aconteceu um erro'
@@ -173,6 +180,7 @@ export class ClientesComponent implements OnInit {
   deleteClient() {
     this.clientService.deleteClient(this.clientSeleted).subscribe(
       (data: any) => {
+        this.isLoading = false;
         this.clientes = data.clients;
         this.closeModalDelete();
         this.toastService.toastSucess(

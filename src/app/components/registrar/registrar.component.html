@@ -181,7 +181,12 @@
           type="button"
           class="btn btn-primary w-50"
         >
-          Registrar
+          {{ isLoading ? "Carregando..." : "Registrar" }}
+          <div
+            *ngIf="isLoading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+          ></div>
         </button>
       </div>
     </form>

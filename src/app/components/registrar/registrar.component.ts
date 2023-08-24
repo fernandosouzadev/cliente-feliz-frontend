@@ -20,6 +20,7 @@ interface User {
 export class RegistrarComponent implements OnInit {
   user: User;
   formulario: FormGroup;
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -49,12 +50,15 @@ export class RegistrarComponent implements OnInit {
   }
 
   registrar() {
+    this.isLoading = true;
     this.authService.registrar(this.user).subscribe(
       (data: any) => {
+        this.isLoading = false;
         this.toastService.toastSucess(data.message, 'Usuario Registrado!');
         this.router.navigate(['/login']);
       },
       (error) => {
+        this.isLoading = false;
         this.toastService.toastError(
           error.error.message,
           'Ops, aconteceu um erro'

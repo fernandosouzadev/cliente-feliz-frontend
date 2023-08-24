@@ -20,6 +20,7 @@ interface Data {
 export class ResetarSenhaComponent implements OnInit {
   data: Data;
   formulario: FormGroup;
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -51,12 +52,15 @@ export class ResetarSenhaComponent implements OnInit {
   }
 
   resetPassword() {
+    this.isLoading = true;
     this.authService.resetPassword(this.data).subscribe(
       (data: any) => {
+        this.isLoading = false;
         this.toastService.toastSucess(data.message, 'Senha alterada');
         this.router.navigate(['/login']);
       },
       (error) => {
+        this.isLoading = false;
         this.toastService.toastError(
           error.error.message,
           'Ops, aconteceu um erro'

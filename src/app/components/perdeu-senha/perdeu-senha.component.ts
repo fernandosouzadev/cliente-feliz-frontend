@@ -12,6 +12,7 @@ import { ToastService } from 'src/app/services/toast.service';
 export class PerdeuSenhaComponent implements OnInit {
   email: string;
   formulario: FormGroup;
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -26,12 +27,15 @@ export class PerdeuSenhaComponent implements OnInit {
   }
 
   recuperarSenha() {
+    this.isLoading = true;
     this.authService.forgotPassword(this.email).subscribe(
       (data: any) => {
+        this.isLoading = false;
         this.toastService.toastSucess(data.message, 'E-mail enviado!');
         this.router.navigate(['/login']);
       },
       (error) => {
+        this.isLoading = false;
         this.toastService.toastError(
           error.error.message,
           'Ops, aconteceu um erro'

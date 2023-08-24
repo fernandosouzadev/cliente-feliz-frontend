@@ -21,6 +21,7 @@ interface Client {
 export class ClientPopupComponent implements OnInit {
   @Input('status') status: boolean;
   @Input('client') client: Client;
+  @Input('loading') isLoading: boolean;
   @Output() createClient = new EventEmitter();
   @Output() editClient = new EventEmitter();
   @Output() modalClose = new EventEmitter<void>();
@@ -82,6 +83,7 @@ export class ClientPopupComponent implements OnInit {
     this.client.name = this.newClient.name;
     this.client.description = this.newClient.description;
     this.createClient.emit();
+    this.isLoading = true;
     this.closeModal();
   }
 
@@ -89,6 +91,7 @@ export class ClientPopupComponent implements OnInit {
     this.client.name = this.newClient.name;
     this.client.description = this.newClient.description;
     this.editClient.emit();
+    this.isLoading = true;
     this.closeModal();
   }
 

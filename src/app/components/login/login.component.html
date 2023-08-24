@@ -113,8 +113,14 @@
           (click)="validatedFields()"
           type="submit"
           class="btn btn-primary w-50"
+          [disabled]="isLoading"
         >
-          Entrar
+          {{ isLoading ? "Carregando..." : "Entrar" }}
+          <div
+            *ngIf="isLoading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+          ></div>
         </button>
 
         <button (click)="navigate('/registrar')" class="btn text-body-tertiary">

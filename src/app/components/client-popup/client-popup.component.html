@@ -81,14 +81,24 @@
           (click)="validatedFields('create')"
           class="btn btn-success"
         >
-          Criar cliente
+          {{ isLoading ? "Carregando..." : "Criar Cliente" }}
+          <div
+            *ngIf="isLoading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+          ></div>
         </button>
         <button
           *ngIf="client.name !== ''"
           (click)="validatedFields('edit')"
           class="btn btn-success"
         >
-          Salvar alteração
+          {{ isLoading ? "Carregando..." : "Salvar Alteração" }}
+          <div
+            *ngIf="isLoading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+          ></div>
         </button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 <app-confirm-popup
   [status]="statusPopupDelete"
+  [loading]="isLoading"
   message="Tem certeza que deseja remover este usuario?"
   (modalClose)="closeModalDelete()"
   (confirm)="deleteClient()"
@@ -8,6 +9,7 @@
   [status]="statusPopupClient"
   (modalClose)="closeModalClient()"
   [client]="client"
+  [loading]="isLoading"
   (createClient)="createClient()"
   (editClient)="editClient()"
 ></app-client-popup>
@@ -62,7 +64,14 @@
       class="form-control w-50"
       placeholder="Pesquisar..."
     />
-    <button (click)="searchClient()" class="btn btn-primary">Buscar</button>
+    <button (click)="searchClient()" class="btn btn-primary">
+      {{ isLoading ? "Buscando..." : "Buscar" }}
+      <div
+        *ngIf="isLoading"
+        class="spinner-border spinner-border-sm"
+        role="status"
+      ></div>
+    </button>
     <button
       *ngIf="search !== ''"
       (click)="resetarBuscar()"

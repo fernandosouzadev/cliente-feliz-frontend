@@ -15,6 +15,7 @@ import {
 export class ConfirmPopupComponent implements OnInit {
   @Input('status') status: boolean = true;
   @Input('message') message: string;
+  @Input('loading') isLoading: boolean;
   @Output() confirm = new EventEmitter();
   @Output() modalClose = new EventEmitter<void>();
 
@@ -34,6 +35,7 @@ export class ConfirmPopupComponent implements OnInit {
   }
 
   confirmDelete() {
+    this.isLoading = true;
     this.confirm.emit();
   }
 

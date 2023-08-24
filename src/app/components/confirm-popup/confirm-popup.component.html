@@ -24,7 +24,12 @@
           Cancelar
         </button>
         <button (click)="confirmDelete()" class="btn btn-danger">
-          Remover usuario
+          {{ isLoading ? "Carregando..." : "Remover usuario" }}
+          <div
+            *ngIf="isLoading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+          ></div>
         </button>
       </div>
     </div>
