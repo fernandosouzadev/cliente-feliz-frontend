@@ -91,7 +91,10 @@
           *ngIf="type === 'edit'"
           (click)="validatedFields('edit')"
           class="btn btn-success"
-          [disabled]="newClient.name === client.name"
+          [disabled]="
+            newClient.name === client.name &&
+            newClient.description === client.description
+          "
         >
           {{ isLoading ? "Carregando..." : "Salvar Alteração" }}
           <div

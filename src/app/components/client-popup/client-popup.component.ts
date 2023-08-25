@@ -139,43 +139,44 @@ export class ClientPopupComponent implements OnInit {
       return;
     }
     const isExistClientName = this.clientes.find(
-      (cliente) => cliente.name === this.newClient.name
+      (cliente) =>
+        cliente.name === this.newClient.name &&
+        cliente.description === this.newClient.description
     );
     if (isExistClientName) {
       this.toastService.toastError(
-        'Já possui um cliente com esse nome',
+        'Já possui um cliente com esses dados',
         'Ops, aconteceu um erro'
       );
       this.isLoading = false;
       return;
     }
-    if (this.client.name !== this.newClient.name) {
-      this.client.name = this.newClient.name;
-      this.client.description = this.newClient.description;
-      this.isLoading = true;
-      this.clientService.editClient(this.client).subscribe(
-        (data: any) => {
-          this.isLoading = false;
-          this.clientes.forEach((client) => {
-            if (client._id === data.updatedClient._id) {
-              client = data.updatedClient;
-            }
-          });
-          this.modalClose.emit();
-          this.toastService.toastSucess(
-            data.message,
-            'Cliente atualizado com sucesso!'
-          );
-        },
-        (error) => {
-          this.isLoading = false;
-          this.toastService.toastError(
-            error.error.message,
-            'Ops, aconteceu um erro'
-          );
-        }
-      );
-    }
+
+    this.client.name = this.newClient.name;
+    this.client.description = this.newClient.description;
+    this.isLoading = true;
+    this.clientService.editClient(this.client).subscribe(
+      (data: any) => {
+        this.isLoading = false;
+        this.clientes.forEach((client) => {
+          if (client._id === data.updatedClient._id) {
+            client = data.updatedClient;
+          }
+        });
+        this.modalClose.emit();
+        this.toastService.toastSucess(
+          data.message,
+          'Cliente atualizado com sucesso!'
+        );
+      },
+      (error) => {
+        this.isLoading = false;
+        this.toastService.toastError(
+          error.error.message,
+          'Ops, aconteceu um erro'
+        );
+      }
+    );
   }
 
   validatedFields(type: string) {
