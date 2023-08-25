@@ -10,12 +10,10 @@
       <button (click)="closeModal()" class="btn fs-2 align-self-end">
         <i class="ph ph-x"></i>
       </button>
-      <div *ngIf="client.name === ''" class="fs-4 text-center">
+      <div *ngIf="type === 'create'" class="fs-4 text-center">
         Adicionar cliente
       </div>
-      <div *ngIf="client.name !== ''" class="fs-4 text-center">
-        Editar cliente
-      </div>
+      <div *ngIf="type === 'edit'" class="fs-4 text-center">Editar cliente</div>
 
       <div class="w-100 d-flex flex-column gap-3" [formGroup]="formulario">
         <div class="w-100">
@@ -77,7 +75,7 @@
           Cancelar
         </button>
         <button
-          *ngIf="client.name === ''"
+          *ngIf="type === 'create'"
           (click)="validatedFields('create')"
           class="btn btn-success"
           [disabled]="isLoading"
@@ -90,7 +88,7 @@
           ></div>
         </button>
         <button
-          *ngIf="client.name !== ''"
+          *ngIf="type === 'edit'"
           (click)="validatedFields('edit')"
           class="btn btn-success"
           [disabled]="isLoading"

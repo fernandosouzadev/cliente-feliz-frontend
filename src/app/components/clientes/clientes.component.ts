@@ -31,7 +31,10 @@ export class ClientesComponent implements OnInit {
   statusPopupClient: boolean = false;
   clientSeleted: string;
   search: string = '';
-  isLoading: boolean = false;
+  IsSearching: boolean = false;
+  typePopupClient: string = 'create';
+  isLoadingCliente: boolean = false;
+  isLoadingSearch: boolean = false;
 
   constructor(
     private router: Router,
@@ -73,6 +76,7 @@ export class ClientesComponent implements OnInit {
   }
 
   setEditClient(client) {
+    this.typePopupClient = 'edit';
     this.statusPopupClient = true;
     this.client = client;
   }
@@ -82,7 +86,8 @@ export class ClientesComponent implements OnInit {
     this.statusPopupDelete = true;
   }
 
-  setStatusPop() {
+  setStatusPopup() {
+    this.typePopupClient = 'create';
     this.statusPopupClient = true;
   }
 
@@ -103,6 +108,7 @@ export class ClientesComponent implements OnInit {
   }
 
   createClient() {
+    this.isLoadingCliente = true;
     if (!this.client?.name) {
       this.toastService.toastError(
         `Você nao preencheu o campo nome`,
@@ -120,13 +126,13 @@ export class ClientesComponent implements OnInit {
     }
     this.clientService.createClient(this.client).subscribe(
       (data: any) => {
-        this.isLoading = true;
+        this.isLoadingCliente = false;
         this.clientes.push(data.client);
         this.closeModalClient();
         this.toastService.toastSucess(``, 'Cliente adicionado com sucesso!');
       },
       (error) => {
-        this.isLoading = false;
+        this.isLoadingCliente = false;
         this.toastService.toastError(
           error.error.message,
           'Ops, aconteceu um erro'
@@ -136,6 +142,7 @@ export class ClientesComponent implements OnInit {
   }
 
   editClient() {
+    this.isLoadingCliente = true;
     if (!this.client?.name) {
       this.toastService.toastError(
         `Você nao preencheu o campo nome`,
@@ -153,8 +160,7 @@ export class ClientesComponent implements OnInit {
     }
     this.clientService.editClient(this.client).subscribe(
       (data: any) => {
-        this.isLoading = true;
-
+        this.isLoadingCliente = false;
         this.clientes.forEach((client) => {
           if (client._id === data.updatedClient._id) {
             client = data.updatedClient;
@@ -167,8 +173,7 @@ export class ClientesComponent implements OnInit {
         );
       },
       (error) => {
-        this.isLoading = false;
-
+        this.isLoadingCliente = false;
         this.toastService.toastError(
           error.error.message,
           'Ops, aconteceu um erro'
@@ -178,9 +183,10 @@ export class ClientesComponent implements OnInit {
   }
 
   deleteClient() {
+    this.isLoadingCliente = true;
     this.clientService.deleteClient(this.clientSeleted).subscribe(
       (data: any) => {
-        this.isLoading = false;
+        this.isLoadingCliente = false;
         this.clientes = data.clients;
         this.closeModalDelete();
         this.toastService.toastSucess(
@@ -189,6 +195,7 @@ export class ClientesComponent implements OnInit {
         );
       },
       (error) => {
+        this.isLoadingCliente = false;
         this.toastService.toastError(
           error.error.message,
           'Ops, aconteceu um erro'
@@ -200,6 +207,7 @@ export class ClientesComponent implements OnInit {
   resetarBuscar() {
     this.clientService.getClients().subscribe(
       (data: any) => {
+        this.IsSearching = false;
         this.clientes = data.clients;
       },
       (error) => {
@@ -215,19 +223,26 @@ export class ClientesComponent implements OnInit {
   searchClient() {
     if (this.search === '') {
       this.resetarBuscar();
+      this.IsSearching = false;
     } else {
-      this.isLoading = true;
+      this.isLoadingSearch = true;
       this.clientService.searchClient(this.search).subscribe(
         (data: any) => {
-          this.isLoading = false;
+          this.IsSearching = false;
+          this.isLoadingSearch = false;
           this.clientes = data.clients;
         },
         (error) => {
-          this.isLoading = false;
-          this.toastService.toastError(
-            error.error.message,
-            'Ops, aconteceu um erro'
-          );
+          this.IsSearching = true;
+          this.isLoadingSearch = false;
+          if (error.status === 404) {
+            this.clientes = [];
+          } else {
+            this.toastService.toastError(
+              error.error.message,
+              'Ops, aconteceu um erro'
+            );
+          }
         }
       );
     }

@@ -22,6 +22,7 @@ export class ClientPopupComponent implements OnInit {
   @Input('status') status: boolean;
   @Input('client') client: Client;
   @Input('loading') isLoading: boolean;
+  @Input('type') type: string;
   @Output() createClient = new EventEmitter();
   @Output() editClient = new EventEmitter();
   @Output() modalClose = new EventEmitter<void>();
@@ -84,7 +85,6 @@ export class ClientPopupComponent implements OnInit {
     this.client.description = this.newClient.description;
     this.createClient.emit();
     this.isLoading = true;
-    this.closeModal();
   }
 
   confirmEditClient() {
@@ -92,7 +92,6 @@ export class ClientPopupComponent implements OnInit {
     this.client.description = this.newClient.description;
     this.editClient.emit();
     this.isLoading = true;
-    this.closeModal();
   }
 
   validatedFields(type: string) {
