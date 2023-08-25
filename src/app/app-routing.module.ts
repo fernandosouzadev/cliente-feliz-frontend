@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { CadastroRealizadoComponent } from './components/cadastro-realizado/cadastro-realizado.component';
 import { ClientesComponent } from './components/clientes/clientes.component';
 import { LoginComponent } from './components/login/login.component';
 import { PerdeuSenhaComponent } from './components/perdeu-senha/perdeu-senha.component';
@@ -37,6 +38,13 @@ const routes: Routes = [
     component: ResetarSenhaComponent,
     data: {
       title: 'Alterar minha senha',
+    },
+  },
+  {
+    path: 'cadastro-sucesso',
+    component: CadastroRealizadoComponent,
+    data: {
+      title: 'Cadastro realizado com sucesso',
     },
   },
   {

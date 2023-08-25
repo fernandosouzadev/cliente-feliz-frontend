@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ValidarEmailComponent } from './components/validar-email/validar-email.component';
 import { ConfirmPopupComponent } from './components/confirm-popup/confirm-popup.component';
 import { ClientPopupComponent } from './components/client-popup/client-popup.component';
+import { CadastroRealizadoComponent } from './components/cadastro-realizado/cadastro-realizado.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ClientPopupComponent } from './components/client-popup/client-popup.com
     ValidarEmailComponent,
     ConfirmPopupComponent,
     ClientPopupComponent,
+    CadastroRealizadoComponent,
   ],
   imports: [
     BrowserModule,

@@ -55,7 +55,7 @@ export class RegistrarComponent implements OnInit {
       (data: any) => {
         this.isLoading = false;
         this.toastService.toastSucess(data.message, 'Usuario Registrado!');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/cadastro-sucesso']);
       },
       (error) => {
         this.isLoading = false;

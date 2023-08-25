@@ -10,6 +10,7 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class ValidarEmailComponent implements OnInit {
   private token: string;
+  isValidToken: boolean = false;
 
   constructor(
     private router: Router,
@@ -20,15 +21,14 @@ export class ValidarEmailComponent implements OnInit {
 
   ngOnInit(): void {
     this.token = this.route.snapshot.paramMap.get('token');
-    if (!this.token) {
-      this.router.navigate(['/login']);
-    } else {
+    if (this.token) {
       this.authService.validationEmail(this.token).subscribe(
         (data: any) => {
           this.toastService.toastSucess(data.message, 'E-mail confirmado!');
-          this.router.navigate(['/login']);
+          this.isValidToken = true;
         },
         (error) => {
+          this.isValidToken = false;
           this.toastService.toastError(
             error.error.message,
             'Ops, aconteceu um erro'
@@ -36,5 +36,9 @@ export class ValidarEmailComponent implements OnInit {
         }
       );
     }
+  }
+
+  navigateLogin() {
+    this.router.navigate(['/login']);
   }
 }

@@ -1,0 +1,26 @@
+<div
+  *ngIf="isValidToken"
+  class="min-vh-100 w-100 d-flex flex-column gap-5 justify-content-center align-items-center"
+>
+  <img src="../../../assets/images/validated-user.svg" width="300" alt="" />
+  <div class="fs-4 text-center">
+    Parabéns, você confirmou seu e-mail, clique no botão abaixo para efetuar o
+    login!
+  </div>
+  <button (click)="navigateLogin()" class="btn btn-outline-primary">
+    Ir para o login
+  </button>
+</div>
+<div
+  *ngIf="!isValidToken"
+  class="min-vh-100 w-100 d-flex flex-column gap-5 justify-content-center align-items-center"
+>
+  <img src="../../../assets/images/refuse.svg" width="300" alt="" />
+
+  <div class="fs-4 text-center">
+    O link de validação é invalido ou expirou, contate o suporte!
+  </div>
+  <button (click)="navigateLogin()" class="btn btn-outline-primary">
+    Ir para o login
+  </button>
+</div>
