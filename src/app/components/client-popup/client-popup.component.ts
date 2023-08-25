@@ -7,8 +7,11 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ClientService } from 'src/app/services/client.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 interface Client {
+  _id?: string;
   name: string;
   description: string;
 }
@@ -21,17 +24,19 @@ interface Client {
 export class ClientPopupComponent implements OnInit {
   @Input('status') status: boolean;
   @Input('client') client: Client;
+  @Input('clientes') clientes: Client[];
   @Input('loading') isLoading: boolean;
   @Input('type') type: string;
-  @Output() createClient = new EventEmitter();
-  @Output() editClient = new EventEmitter();
   @Output() modalClose = new EventEmitter<void>();
 
   newClient: any;
   formulario: FormGroup;
   isInvalid: boolean;
 
-  constructor() {}
+  constructor(
+    private clientService: ClientService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.newClient = {
@@ -80,27 +85,106 @@ export class ClientPopupComponent implements OnInit {
     }
   }
 
-  confirmCreateClient() {
+  createClient() {
     this.client.name = this.newClient.name;
     this.client.description = this.newClient.description;
-    this.createClient.emit();
     this.isLoading = true;
+    if (!this.client?.name) {
+      this.toastService.toastError(
+        `Você nao preencheu o campo nome`,
+        'Campo não preenchido'
+      );
+      return;
+    }
+
+    if (!this.client?.description) {
+      this.toastService.toastError(
+        `Você nao preencheu o campo descrição`,
+        'Campo não preenchido'
+      );
+      return;
+    }
+    this.clientService.createClient(this.client).subscribe(
+      (data: any) => {
+        this.isLoading = false;
+        this.clientes.push(data.client);
+        this.modalClose.emit();
+        this.toastService.toastSucess(``, 'Cliente adicionado com sucesso!');
+      },
+      (error) => {
+        this.isLoading = false;
+        this.toastService.toastError(
+          error.error.message,
+          'Ops, aconteceu um erro'
+        );
+      }
+    );
   }
 
-  confirmEditClient() {
-    this.client.name = this.newClient.name;
-    this.client.description = this.newClient.description;
-    this.editClient.emit();
+  editClient() {
     this.isLoading = true;
+    if (!this.client?.name) {
+      this.toastService.toastError(
+        `Você nao preencheu o campo nome`,
+        'Campo não preenchido'
+      );
+      return;
+    }
+
+    if (!this.client?.description) {
+      this.toastService.toastError(
+        `Você nao preencheu o campo descrição`,
+        'Campo não preenchido'
+      );
+      return;
+    }
+    const isExistClientName = this.clientes.find(
+      (cliente) => cliente.name === this.newClient.name
+    );
+    if (isExistClientName) {
+      this.toastService.toastError(
+        'Já possui um cliente com esse nome',
+        'Ops, aconteceu um erro'
+      );
+      this.isLoading = false;
+      return;
+    }
+    if (this.client.name !== this.newClient.name) {
+      this.client.name = this.newClient.name;
+      this.client.description = this.newClient.description;
+      this.isLoading = true;
+      this.clientService.editClient(this.client).subscribe(
+        (data: any) => {
+          this.isLoading = false;
+          this.clientes.forEach((client) => {
+            if (client._id === data.updatedClient._id) {
+              client = data.updatedClient;
+            }
+          });
+          this.modalClose.emit();
+          this.toastService.toastSucess(
+            data.message,
+            'Cliente atualizado com sucesso!'
+          );
+        },
+        (error) => {
+          this.isLoading = false;
+          this.toastService.toastError(
+            error.error.message,
+            'Ops, aconteceu um erro'
+          );
+        }
+      );
+    }
   }
 
   validatedFields(type: string) {
     if (this.formulario.status === 'VALID' && type === 'create') {
       this.isInvalid = false;
-      this.confirmCreateClient();
+      this.createClient();
     } else if (this.formulario.status === 'VALID' && type === 'edit') {
       this.isInvalid = false;
-      this.confirmEditClient();
+      this.editClient();
     } else {
       this.isInvalid = true;
       return;
