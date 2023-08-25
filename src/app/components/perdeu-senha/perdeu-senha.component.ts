@@ -10,7 +10,7 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./perdeu-senha.component.css'],
 })
 export class PerdeuSenhaComponent implements OnInit {
-  email: string;
+  email: string = '';
   formulario: FormGroup;
   isLoading: boolean = false;
 

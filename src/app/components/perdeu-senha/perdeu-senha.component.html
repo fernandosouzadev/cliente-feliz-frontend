@@ -61,6 +61,7 @@
             id="inputEmail"
             placeholder="email@exemple.com"
             [(ngModel)]="email"
+            formControlName="email"
             [class]="
               formulario.controls['email'].errors ? 'border border-danger' : ''
             "
@@ -81,7 +82,7 @@
           </div>
         </div>
         <button
-          (click)="recuperarSenha()"
+          (click)="validatedFields()"
           type="button"
           class="btn btn-primary w-50"
           [disabled]="isLoading"
