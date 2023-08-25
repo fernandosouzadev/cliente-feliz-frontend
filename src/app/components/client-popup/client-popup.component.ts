@@ -50,6 +50,9 @@ export class ClientPopupComponent implements OnInit {
   }
 
   ngOnChanges() {
+    if (this.client._id) {
+      this.newClient._id = this.client._id;
+    }
     if (this.client.name) {
       this.newClient.name = this.client.name;
     }
@@ -138,12 +141,27 @@ export class ClientPopupComponent implements OnInit {
       );
       return;
     }
+
     const isExistClientName = this.clientes.find(
-      (cliente) =>
-        cliente.name === this.newClient.name &&
-        cliente.description === this.newClient.description
+      (cliente) => cliente.name === this.newClient.name
     );
-    if (isExistClientName) {
+
+    if (
+      isExistClientName?.name === this.newClient.name &&
+      isExistClientName?._id !== this.newClient?._id
+    ) {
+      this.toastService.toastError(
+        'Já possui um cliente com esse nome',
+        'Ops, aconteceu um erro'
+      );
+      this.isLoading = false;
+      return;
+    }
+
+    if (
+      isExistClientName?.name === this.newClient.name &&
+      isExistClientName?.description === this.newClient.description
+    ) {
       this.toastService.toastError(
         'Já possui um cliente com esses dados',
         'Ops, aconteceu um erro'
@@ -154,6 +172,7 @@ export class ClientPopupComponent implements OnInit {
 
     this.client.name = this.newClient.name;
     this.client.description = this.newClient.description;
+
     this.isLoading = true;
     this.clientService.editClient(this.client).subscribe(
       (data: any) => {
@@ -171,6 +190,7 @@ export class ClientPopupComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
+        console.log(error);
         this.toastService.toastError(
           error.error.message,
           'Ops, aconteceu um erro'
